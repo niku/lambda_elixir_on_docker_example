@@ -1,0 +1,5 @@
+#!/bin/sh
+
+APP_NAME=lambda_elixir_on_docker_example
+
+${LAMBDA_TASK_ROOT}/bin/${APP_NAME} start

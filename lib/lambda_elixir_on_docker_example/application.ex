@@ -10,6 +10,7 @@ defmodule LambdaElixirOnDockerExample.Application do
     children = [
       # Starts a worker by calling: LambdaElixirOnDockerExample.Worker.start_link(arg)
       # {LambdaElixirOnDockerExample.Worker, arg}
+      LambdaElixirOnDockerExample.Poller
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
