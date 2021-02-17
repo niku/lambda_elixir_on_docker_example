@@ -57,7 +57,7 @@ defmodule LambdaElixirOnDockerExample.Poller do
       :httpc.request(
         :get,
         {'http://#{aws_lambda_runtime_api}/2018-06-01/runtime/invocation/next', []},
-        [],
+        [timeout: :infinity],
         []
       )
 
