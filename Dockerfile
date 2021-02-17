@@ -1,8 +1,8 @@
-ARG container_version=al2.2021.01.06.10
-FROM public.ecr.aws/lambda/provided:${container_version}
+ARG container=public.ecr.aws/lambda/provided:al2.2021.02.15.13
+FROM ${container}
 
 ENV LANG C.UTF-8
-ENV ERLANG_VERSION OTP-23.2.3
+ENV ERLANG_VERSION OTP-23.2.5
 ENV ELIXIR_VERSION v1.11.3
 
 WORKDIR /tmp
@@ -31,7 +31,7 @@ RUN cd /app && \
   MIX_ENV=prod mix release --path /release && \
   chmod -R a=rX /release
 
-FROM public.ecr.aws/lambda/provided:${container_version}
+FROM ${container}
 
 ENV LANG C.UTF-8
 
