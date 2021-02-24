@@ -74,24 +74,30 @@ defmodule LambdaElixirOnDockerExample.Poller do
       body
       |> to_string()
 
-    [function | reversed_modules] =
+    [function_name | reversed_module_name] =
       handler
       |> String.split(".", trim: true)
       |> Enum.reverse()
+      |> Enum.map(&String.to_atom/1)
 
     module =
-      reversed_modules
+      reversed_module_name
       |> Enum.reverse()
-      |> Enum.join(".")
-      |> String.to_atom()
+      |> Module.concat()
 
     response =
-      apply(module, String.to_atom(function), [
-        reserved_environment_variable,
-        body,
-        lambda_runtime_aws_request_id,
-        lambda_runtime_deadline_ms
-      ])
+      Task.Supervisor.async(
+        LambdaElixirOnDockerExample.TaskSupervisor,
+        module,
+        function_name,
+        [
+          reserved_environment_variable,
+          body,
+          lambda_runtime_aws_request_id,
+          lambda_runtime_deadline_ms
+        ]
+      )
+      |> Task.await()
 
     {:ok, x} =
       :httpc.request(
