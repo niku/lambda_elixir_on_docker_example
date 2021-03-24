@@ -3,13 +3,16 @@ defmodule LambdaElixirOnDockerExample do
   Documentation for `LambdaElixirOnDockerExample`.
   """
 
-  def handle(
-        %LambdaElixirOnDockerExample.ReservedEnvironmentVariable{},
-        body,
-        lambda_runtime_aws_request_id,
-        lambda_runtime_deadline_ms
-      ) do
-    IO.inspect({body, lambda_runtime_aws_request_id, lambda_runtime_deadline_ms})
+  def handle(body, invocation_data) do
+    IO.inspect({body, invocation_data})
+
+    IO.inspect(
+      get_lambda_runtime_cognito_identity:
+      LambdaElixirOnDockerExample.InvocationData.get_lambda_runtime_cognito_identity(
+        invocation_data
+      )
+    )
+
     "hello~"
   end
 end
